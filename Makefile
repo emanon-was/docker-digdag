@@ -28,7 +28,7 @@ docker.run:
 	$(call docker_run,$(DOCKER_IMAGE):$(DOCKER_TAG),,$(CMD))
 
 docker.shell:
-	$(call docker_run,$(DOCKER_IMAGE):$(DOCKER_TAG),--entrypoint=,/bin/bash || exit 0)
+	$(call docker_run,$(DOCKER_IMAGE):$(DOCKER_TAG),--entrypoint=,/bin/sh || exit 0)
 
 docker.cmd:
 	$(call docker_run,$(DOCKER_IMAGE):$(DOCKER_TAG),--entrypoint=$(ENTRYPOINT),$(CMD))
@@ -37,7 +37,7 @@ docker.local.run:
 	$(call docker_local_run,$(DOCKER_IMAGE):$(DOCKER_TAG),,$(CMD))
 
 docker.local.shell:
-	$(call docker_local_run,$(DOCKER_IMAGE):$(DOCKER_TAG),--entrypoint=,/bin/bash || exit 0)
+	$(call docker_local_run,$(DOCKER_IMAGE):$(DOCKER_TAG),--entrypoint=,/bin/sh || exit 0)
 
 docker.local.cmd:
 	$(call docker_local_run,$(DOCKER_IMAGE):$(DOCKER_TAG),--entrypoint=$(ENTRYPOINT),$(CMD))

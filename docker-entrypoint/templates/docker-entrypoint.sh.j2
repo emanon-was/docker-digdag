@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 DIGDAG_CONFIG=$(dirname $0)/server.properties
 
@@ -15,16 +15,20 @@ if [ -n "${{ env }}" ]; then
 
 {%- if 'enum' in val %}
     case "${{ env }}" in
-        {{ val['enum']|join(' | ') }} ) echo "{{ val['param'] }} = ${{ env }}" >> $DIGDAG_CONFIG;
-        * ) echo "Invalid parameter: {{ env }} = [{{ val['enum']|join(', ') }}]"; exit 1;
+        {{ val['enum']|join(' | ') }} )
+            echo "{{ val['param'] }} = ${{ env }}" >> $DIGDAG_CONFIG
+            ;;
+        * ) echo "Invalid parameter: {{ env }} = [{{ val['enum']|join(', ') }}]"
+            exit 1
+            ;;
     esac
 {%- else %}
-    echo "{{ val['param'] }} = ${{ env }}" >> $DIGDAG_CONFIG;
+    echo "{{ val['param'] }} = ${{ env }}" >> $DIGDAG_CONFIG
 {%- endif %}
 
 {%- if 'default' in val %}
 else
-    echo "{{ val['param'] }} = {{ val['default'] }}" >> $DIGDAG_CONFIG;
+    echo "{{ val['param'] }} = {{ val['default'] }}" >> $DIGDAG_CONFIG
 {%- endif %}
 fi
 
@@ -34,7 +38,7 @@ fi
 # Start digdag server
 
 if [ -f $DIGDAG_CONFIG ]; then
-    digdag server --config $DIGDAG_CONFIG $@;
+    digdag server --config $DIGDAG_CONFIG $@
 else
-    digdag server --memory $@;
+    digdag server --memory $@
 fi

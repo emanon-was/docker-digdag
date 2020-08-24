@@ -1,20 +1,19 @@
-FROM openjdk:8-jre-slim as download
-
+FROM python:3.8-alpine as build.download
 # Digdag > Docs > Getting started
 # https://docs.digdag.io/getting_started.html
-
-RUN apt-get update \
-  && apt-get install -y curl \
-  && apt-get clean \
-  && rm -rf /var/lib/apt/lists/*
-
+RUN apk add --no-cache curl
 RUN curl -o /usr/local/bin/digdag --create-dirs -L "https://dl.digdag.io/digdag-latest" \
   && chmod +x /usr/local/bin/digdag
 
-FROM openjdk:8-jre-slim
+FROM python:3.8-alpine as build.entrypoint
+COPY ./docker-entrypoint /app
+WORKDIR /app
+RUN pip install -r requirements.txt \
+  && python docker-entrypoint-gen.py > docker-entrypoint.sh \
+  && chmod +x docker-entrypoint.sh
 
-COPY --from=download /usr/local/bin/digdag /usr/local/bin/
-COPY docker-entrypoint.sh /app/
-
+FROM openjdk:8-jre-alpine
+COPY --from=build.download /usr/local/bin/digdag /usr/local/bin/
+COPY --from=build.entrypoint /app/docker-entrypoint.sh /app/
 WORKDIR /app
 ENTRYPOINT ["/app/docker-entrypoint.sh"]
