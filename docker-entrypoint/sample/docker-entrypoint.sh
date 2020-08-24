@@ -6,8 +6,6 @@ if [ -f $DIGDAG_CONFIG ]; then
     rm $DIGDAG_CONFIG
 fi
 
-# Server-mode commands > --config
-# https://docs.digdag.io/command_reference.html#server-mode-commands
 
 # server.bind (ip address)
 if [ -n "$SERVER_BIND" ]; then
@@ -330,7 +328,6 @@ fi
 if [ -n "$API_MAX_SESSIONS_PAGE_SIZE" ]; then
     echo "api.max_sessions_page_size = $API_MAX_SESSIONS_PAGE_SIZE" >> $DIGDAG_CONFIG
 fi
-
 
 
 

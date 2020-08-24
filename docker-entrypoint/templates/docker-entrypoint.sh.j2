@@ -6,8 +6,6 @@ if [ -f $DIGDAG_CONFIG ]; then
     rm $DIGDAG_CONFIG
 fi
 
-# Server-mode commands > --config
-# https://docs.digdag.io/command_reference.html#server-mode-commands
 
 {% for (env, val) in conf.items() -%}
 # {{ val['param'] }} ({{ val['about'] }}){% if 'warn' in val %} {{ val['warn'] }}{% endif %}
@@ -33,7 +31,6 @@ else
 fi
 
 {% endfor %}
-
 
 # Start digdag server
 

@@ -1,3 +1,43 @@
+# docker-digdag-server
+
+## How to use this image
+
+### Start a `digdag server` instance
+
+Starting a Digdag instance is simple:
+```shell
+$ docker run -d --name some-digdag -e SERVER_PORT=65432 digdag-server:tag
+```
+
+### Commands
+
+```
+--disable-executor-loop      disable workflow executor loop
+--disable-scheduler          disable scheduler
+--disable-local-agent        disable local task execution
+--enable-swagger             enable swagger api. Do not use in production because CORS
+                             is also enabled on from any domains with all HTTP methods
+```
+
+If you need only WebUI/API
+
+```shell
+$ docker run -d --name some-digdag -e .... digdag-server:tag --disable-local-agent --disable-executor-loop --disable-scheduler
+```
+
+If you need Agent/Workflow/Scheduler
+
+```shell
+$ docker run -d --name some-digdag -e .... digdag-server:tag
+```
+
+### Environment Variables
+
+Read `docker-entrypoint/digdag-server.toml`
+
+```toml
+# docker-entrypoint/digdag-server.toml
+
 # Server-mode commands > --config
 # https://docs.digdag.io/command_reference.html#server-mode-commands
 
@@ -53,7 +93,7 @@ param = "server.http.enable-http2"
 about = "enable HTTP/2. default: false"
 
 # TODO:
-# [SERVER_HTTP_HEADERS_KEY = VALUE]
+# [SERVER_HTTP_HEADERS]
 # param = "server.http.headers.KEY = VALUE"
 # about = "HTTP header to set on API responses"
 
@@ -245,3 +285,4 @@ about = "integer. The max number of rows of attempts in api response"
 [API_MAX_SESSIONS_PAGE_SIZE]
 param = "api.max_sessions_page_size"
 about = "integer. The max number of rows of sessions in api response"
+```
