@@ -1,0 +1,40 @@
+#!/bin/bash
+
+DIGDAG_CONFIG=$(dirname $0)/server.properties
+
+if [ -f $DIGDAG_CONFIG ]; then
+    rm $DIGDAG_CONFIG
+fi
+
+# Server-mode commands > --config
+# https://docs.digdag.io/command_reference.html#server-mode-commands
+
+{% for (env, val) in conf.items() -%}
+# {{ val['param'] }} ({{ val['about'] }}){% if 'warn' in val %} {{ val['warn'] }}{% endif %}
+if [ -n "${{ env }}" ]; then
+
+{%- if 'enum' in val %}
+    case "${{ env }}" in
+        {{ val['enum']|join(' | ') }} ) echo "{{ val['param'] }} = ${{ env }}" >> $DIGDAG_CONFIG;
+        * ) echo "Invalid parameter: {{ env }} = [{{ val['enum']|join(', ') }}]"; exit 1;
+    esac
+{%- else %}
+    echo "{{ val['param'] }} = ${{ env }}" >> $DIGDAG_CONFIG;
+{%- endif %}
+
+{%- if 'default' in val %}
+else
+    echo "{{ val['param'] }} = {{ val['default'] }}" >> $DIGDAG_CONFIG;
+{%- endif %}
+fi
+
+{% endfor %}
+
+
+# Start digdag server
+
+if [ -f $DIGDAG_CONFIG ]; then
+    digdag server --config $DIGDAG_CONFIG $@;
+else
+    digdag server --memory $@;
+fi

@@ -49,6 +49,7 @@ about = "maximum allowed idle time of reading HTTP request and writing HTTP resp
 param = "server.http.enable-http2"
 about = "enable HTTP/2. default: false"
 
+# TODO:
 # [SERVER_HTTP_HEADERS_KEY = VALUE]
 # param = "server.http.headers.KEY = VALUE"
 # about = "HTTP header to set on API responses"
