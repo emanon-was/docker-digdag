@@ -1,5 +1,21 @@
 # docker-digdag-server
 
+## How to build this image
+
+### Build latest image
+
+```shell
+$ docker build -t digdag-server:latest .
+```
+
+### Build target version image
+
+```shell
+$ docker build -t digdag-server:tag --build-arg VERSION=0.9.42 .
+```
+
+Releases(https://docs.digdag.io/releases.html)
+
 ## How to use this image
 
 ### Start a `digdag server` instance

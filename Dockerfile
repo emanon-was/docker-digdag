@@ -1,9 +1,16 @@
+FROM python:3.8-alpine as build.download
+
+# Releases
+# https://docs.digdag.io/releases.html
+
+ARG VERSION
+ENV VERSION ${VERSION:-latest}
+
 # Digdag > Docs > Getting started
 # https://docs.digdag.io/getting_started.html
 
-FROM python:3.8-alpine as build.download
 RUN apk add --no-cache curl
-RUN curl -o /usr/local/bin/digdag --create-dirs -L "https://dl.digdag.io/digdag-latest" \
+RUN curl -o /usr/local/bin/digdag --create-dirs -L "https://dl.digdag.io/digdag-${VERSION}" \
   && chmod +x /usr/local/bin/digdag
 
 FROM python:3.8-alpine as build.entrypoint
