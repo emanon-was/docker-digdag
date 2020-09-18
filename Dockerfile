@@ -20,7 +20,9 @@ RUN pip install -r requirements.txt \
   && python build.py > docker-entrypoint.sh \
   && chmod +x docker-entrypoint.sh
 
-FROM openjdk:8-jre-alpine
+FROM python:3.8-alpine
+RUN apk add --no-cache openjdk8-jre
+RUN pip install awscli
 COPY --from=build.download /usr/local/bin/digdag /usr/local/bin/
 COPY --from=build.entrypoint /app/docker-entrypoint.sh /app/
 WORKDIR /app
