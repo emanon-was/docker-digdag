@@ -22,7 +22,7 @@ RUN pip install -r requirements.txt \
 
 FROM python:3.8-alpine
 RUN apk add --no-cache openjdk8-jre
-RUN pip install awscli
+RUN pip install awscli boto3
 COPY --from=build.download /usr/local/bin/digdag /usr/local/bin/
 COPY --from=build.entrypoint /app/docker-entrypoint.sh /app/
 WORKDIR /app
