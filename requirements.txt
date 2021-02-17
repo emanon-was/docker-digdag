@@ -1,4 +1,0 @@
-pip
-awscli
-boto3
-requests
